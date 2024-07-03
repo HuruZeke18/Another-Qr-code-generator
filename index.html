@@ -1,0 +1,116 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: system-ui;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 500px;
+        width: 300px;
+        border-radius: 20px;
+        background: skyblue;
+    }
+
+    .qr-container {
+        border: darkblue 10px solid;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: white;
+        margin-bottom: 32px;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    button {
+        margin-top: 20px;
+        border-radius: 10px;
+        border: none;
+        width: 150px;
+        height: 25px;
+        font-weight: 500;
+        font-size: 15px;
+        transition: all 300ms ease;
+        color: aqua;
+        background: darkcyan;
+    }
+
+    button:hover {
+        box-shadow: 0px 0px 10px black;
+        cursor: pointer;
+        color: black;
+        background: whitesmoke;
+    }
+
+    label {
+        font-weight: 750;
+        padding: 20px;
+    }
+
+    textarea {
+        font-size: 15px;
+        min-height: 100px;
+        min-width: 100%;
+        resize: none;
+    }
+
+    p {
+        color: red;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="qr-container">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Enter Your Text Here" alt="">
+        </div>
+        <form action="">
+            <label for="enter-text">Enter Link or Text Here:</label>
+            <textarea name="" id="enter-text" placeholder="Type links, text, and many more in here..." maxlength="2000"></textarea>
+            <button class="submit">Generate Qr-Code</button>
+        </form>
+    </div>
+
+    <script>
+        const userInput = document.querySelector('#enter-text');
+        const submit = document.querySelector('.submit');
+        const qr_container = document.querySelector('.qr-container');
+
+
+        submit.addEventListener('click', e => {
+            e.preventDefault();
+            var inputUser = userInput.value;
+            if (inputUser == "") {
+                qr_container.innerHTML = `<p>Empty Input Detected.</p>`;
+            } else {
+                qr_container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${inputUser}">`;
+            }
+        });
+    </script>
+</body>
+
+</html>
