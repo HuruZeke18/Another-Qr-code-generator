@@ -1,116 +1,148 @@
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Qr Code Generator</title>
+  </head>
+  <style>
     * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: system-ui;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui;
     }
 
     body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgb(215, 239, 248);
     }
 
     .container {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        height: 500px;
-        width: 300px;
-        border-radius: 20px;
-        background: skyblue;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 500px;
+      width: 300px;
+      border-radius: 20px;
+      border: 5px solid skyblue;
+      background: skyblue;
+      box-shadow: 0px 0px 10px;
     }
 
     .qr-container {
-        border: darkblue 10px solid;
-        border-radius: 10px;
-        padding: 10px;
-        background-color: white;
-        margin-bottom: 32px;
+      border: white 5px solid;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: white;
+      margin-bottom: 32px;
+      transition: all 300ms ease;
+    }
+    
+    .qr-container:hover {
+        box-shadow: 0px 0px 10px, inset 0 0 10px;
     }
 
     form {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
     button {
-        margin-top: 20px;
-        border-radius: 10px;
-        border: none;
-        width: 150px;
-        height: 25px;
-        font-weight: 500;
-        font-size: 15px;
-        transition: all 300ms ease;
-        color: aqua;
-        background: darkcyan;
+      margin-top: 20px;
+      border-radius: 10px;
+      border: none;
+      width: 150px;
+      height: 25px;
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 300ms ease;
+      color: aqua;
+      background: darkcyan;
     }
 
     button:hover {
-        box-shadow: 0px 0px 10px black;
-        cursor: pointer;
-        color: black;
-        background: whitesmoke;
+      box-shadow: 0px 0px 10px black;
+      cursor: pointer;
+      color: black;
+      background: whitesmoke;
     }
-
+    /* 
     label {
         font-weight: 750;
         padding: 20px;
-    }
+    } */
 
     textarea {
-        font-size: 15px;
-        min-height: 100px;
-        min-width: 100%;
-        resize: none;
+      font-size: 15px;
+      min-height: 150px;
+      min-width: 250px;
+      resize: none;
+      padding: 5px 3px 3px 5px;
+      border: 5px solid transparent;
+      transition: all 300ms ease;
+      border-radius: 10px;
+      scroll-behavior: smooth;
+    }
+
+    textarea:focus {
+      box-shadow: 0px 0px 10px, inset 0px 0px 10px;
+      border: 5px solid white;
+      outline: none;
     }
 
     p {
-        color: red;
+      color: red;
     }
-</style>
+  </style>
 
-<body>
+  <body>
     <div class="container">
-        <div class="qr-container">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Enter Your Text Here" alt="">
-        </div>
-        <form action="">
-            <label for="enter-text">Enter Link or Text Here:</label>
-            <textarea name="" id="enter-text" placeholder="Type links, text, and many more in here..." maxlength="2000"></textarea>
-            <button class="submit">Generate Qr-Code</button>
-        </form>
+      <div class="qr-container">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Enter Your Text Here"
+          alt=""
+        />
+      </div>
+      <form action="">
+        <!-- <label for="enter-text">Enter Link or Text Here:</label> -->
+        <textarea
+          name=""
+          id="enter-text"
+          placeholder="Type links and text in here..."
+          maxlength="2000"
+        ></textarea>
+        <button class="submit">Generate Qr-Code</button>
+      </form>
     </div>
 
     <script>
-        const userInput = document.querySelector('#enter-text');
-        const submit = document.querySelector('.submit');
-        const qr_container = document.querySelector('.qr-container');
+      const userInput = document.querySelector("#enter-text");
+      const submit = document.querySelector(".submit");
+      const qr_container = document.querySelector(".qr-container");
+      
+      let modifiedText = "";
+
+      submit.addEventListener('click', e => {
+          e.preventDefault();
+          if (userInput.value == "") {
+              qr_container.innerHTML = `<p>Empty Input Detected.</p>`;
+          } else {
+              qr_container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${modifiedText}">`;
+              userInput.value = userInput.value;
+          }
+      });
 
 
-        submit.addEventListener('click', e => {
-            e.preventDefault();
-            var inputUser = userInput.value;
-            if (inputUser == "") {
-                qr_container.innerHTML = `<p>Empty Input Detected.</p>`;
-            } else {
-                qr_container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${inputUser}">`;
-            }
-        });
+      userInput.addEventListener("input", (e) => {
+        // Replace newlines with "%0A" and store it in the variable
+        modifiedText = userInput.value.replace(/\n/g, "%0A");
+      });
     </script>
-</body>
-
+  </body>
 </html>
