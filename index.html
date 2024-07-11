@@ -12,11 +12,21 @@
       font-family: system-ui;
     }
 
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
     body {
+      background: rgb(215, 239, 248);
+    }
+
+    .container-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      background: rgb(215, 239, 248);
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
     }
 
     .container {
@@ -41,9 +51,9 @@
       margin-bottom: 32px;
       transition: all 300ms ease;
     }
-    
+
     .qr-container:hover {
-        box-shadow: 0px 0px 10px, inset 0 0 10px;
+      box-shadow: 0px 0px 10px, inset 0 0 10px;
     }
 
     form {
@@ -96,48 +106,75 @@
       outline: none;
     }
 
-    p {
+    .Error {
       color: red;
+    }
+
+    footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 600;
+      padding: 50px;
+    }
+
+    span {
+      transition: all 500ms ease;
+    }
+
+    h2 {
+      margin: 20px;
+    }
+
+    span:hover {
+      color: red;
+      font-size: large;
     }
   </style>
 
   <body>
-    <div class="container">
-      <div class="qr-container">
-        <img
-          src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Enter Your Text Here"
-          alt=""
-        />
+    <div class="container-container">
+      '
+      <h2>Simple Qr Code Generator</h2>
+      <div class="container">
+        <div class="qr-container">
+          <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Enter Your Text Here"
+            alt=""
+          />
+        </div>
+        <form action="">
+          <!-- <label for="enter-text">Enter Link or Text Here:</label> -->
+          <textarea
+            name=""
+            id="enter-text"
+            placeholder="Type links and text in here..."
+            maxlength="2000"
+          ></textarea>
+          <button class="submit">Generate Qr-Code</button>
+        </form>
       </div>
-      <form action="">
-        <!-- <label for="enter-text">Enter Link or Text Here:</label> -->
-        <textarea
-          name=""
-          id="enter-text"
-          placeholder="Type links and text in here..."
-          maxlength="2000"
-        ></textarea>
-        <button class="submit">Generate Qr-Code</button>
-      </form>
     </div>
+    <footer>
+      <p>Created By <span>Clark Justine</span></p>
+    </footer>
 
     <script>
       const userInput = document.querySelector("#enter-text");
       const submit = document.querySelector(".submit");
       const qr_container = document.querySelector(".qr-container");
-      
+
       let modifiedText = "";
 
-      submit.addEventListener('click', e => {
-          e.preventDefault();
-          if (userInput.value == "") {
-              qr_container.innerHTML = `<p>Empty Input Detected.</p>`;
-          } else {
-              qr_container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${modifiedText}">`;
-              userInput.value = userInput.value;
-          }
+      submit.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (userInput.value == "") {
+          qr_container.innerHTML = `<p class="Error">Empty Input Detected.</p>`;
+        } else {
+          qr_container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${modifiedText}">`;
+          userInput.value = userInput.value;
+        }
       });
-
 
       userInput.addEventListener("input", (e) => {
         // Replace newlines with "%0A" and store it in the variable
